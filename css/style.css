@@ -40,7 +40,12 @@ body {
     gap: 5px;
 }
 
+span {
+    display: flex;
+}
+
 strong {
+    margin-left: 10px;
     color: purple;
 }
 
