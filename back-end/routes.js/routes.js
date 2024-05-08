@@ -6,6 +6,6 @@ const routes = express()
 
 routes.get("/user", getUser)
 
-routes.patch("/user/update", updateUser)
+routes.patch("/user/update/", updateUser)
 
 module.exports = routes
