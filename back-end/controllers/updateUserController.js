@@ -1,39 +1,33 @@
 const knex = require("../connection/connection")
 
 const updateUser = async (req, res) => {
-    const { name, age, street, neighborhood, state, bio } = req.body
+    const { name, age, street, neighborhood, state, bio } = req.body;
 
     try {
-        // if (!name && !age && !street && !neighborhood && !state && !bio) {
-        //     return res.status(400).json({ message: "Pelo menos um dado deve ser atualizado" })
-        // }
-        // if (name && name.length > 30) {
-        //     return res.status(400).json({ message: "Limite máximo de caracteres atingido! (30)" })
-        // }
-        // if (street && street.length > 50) {
-        //     return res.status(400).json({ message: "Limite máximo de caracteres atingido! (50)" })
-        // }
-        // if (state && state.length > 2) {
-        //     return res.status(400).json({ message: "Por favor insira no formato UF, (XX)" })
-        // }
-        // if (bio && bio.length > 200) {
-        //     return res.status(400).json({ message: "Limite máximo de caracteres atingido! (200)" })
-        // }
-
-        const updateUserRequest = await knex("users").update({
+        const getInfoUser = await knex("users").select().where({ id: 1 }).first();
+        const updates = {
             name,
             age,
             street,
             neighborhood,
             state,
             bio
-        }).where({ id: 1 })
+        };
 
-        return res.status(204).json({ message: "Usuário atualizado com sucesso" })
+        if (!name) updates.name = getInfoUser.name;
+        if (!age) updates.age = getInfoUser.age;
+        if (!street) updates.street = getInfoUser.street;
+        if (!neighborhood) updates.neighborhood = getInfoUser.neighborhood;
+        if (!state) updates.state = getInfoUser.state;
+        if (!bio) updates.bio = getInfoUser.bio;
+
+        await knex("users").update(updates).where({ id: 1 });
+
+        return res.status(204).json({ message: "Usuário atualizado com sucesso" });
 
     } catch (error) {
-        return res.status(500).json({ error: error.message })
+        return res.status(500).json({ error: error.message });
     }
-}
+};
 
 module.exports = { updateUser }

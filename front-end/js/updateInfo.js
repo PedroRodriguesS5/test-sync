@@ -33,18 +33,7 @@ const sendData = async (dataUpdate) => {
         },
         body: JSON.stringify(dataUpdate)
     })
-
-    if (response.status === 204) {
-        cleanFields()
-    }
+    const data = await response.json()
 
 }
 
-const cleanFields = () => {
-    document.querySelector("#name").value = ""
-    document.querySelector("#age").value = ""
-    document.querySelector("#street").value = ""
-    document.querySelector("#neigborhood").value = ""
-    document.querySelector("#state").value = ""
-    document.querySelector("#bio").value = ""
-}
